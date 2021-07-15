@@ -74,7 +74,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
-void EEPROMWriteExample();
+void EEPROMWriteExample(uint8_t SW_data);
 void EEPROMReadExample(uint8_t *Rdata, uint16_t len);
 
 void IOExpenderInit();
