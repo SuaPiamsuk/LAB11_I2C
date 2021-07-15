@@ -141,7 +141,7 @@ int main(void)
 	{
 		case detect_Button :
 			BlueButtonArray[1] = BlueButtonArray[0];//Past
-			BlueButtonArray = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);//Now    // B1_GPIO_Port, B1_Pin
+			BlueButtonArray[0] = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);//Now
 			if(BlueButtonArray[1] == 0 && BlueButtonArray[0] == 1)
 			{
 				State = Read_IOExpdr;
