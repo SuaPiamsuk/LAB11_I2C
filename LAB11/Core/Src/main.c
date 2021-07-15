@@ -55,6 +55,8 @@ uint8_t eepromDataRead_Back[4];
 uint8_t IOExpdrDataRead_Back;
 uint8_t IOExpdrData_Write = 0b11110000;
 
+uint8_t BlueButtonArray[2] = {1,1};//[0,1] == {Now,Past}
+
 typedef enum
 {
 	detect_Button,
@@ -138,6 +140,20 @@ int main(void)
 	switch(State)
 	{
 		case detect_Button :
+			BlueButtonArray[1] = BlueButtonArray[0];//Past
+			BlueButtonArray = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);//Now    // B1_GPIO_Port, B1_Pin
+			if(BlueButtonArray[1] == 0 && BlueButtonArray[0] == 1)
+			{
+				State = Read_IOExpdr;
+			}
+			break;
+		case :
+			break;
+		case :
+			break;
+		case :
+			break;
+		case :
 			break;
 	}
 //	EEPROMWriteExample();
