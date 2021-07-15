@@ -147,13 +147,14 @@ int main(void)
 				State = Read_IOExpdr;
 			}
 			break;
-		case :
+		case Read_IOExpdr :
+
 			break;
-		case :
+		case Write_eeprom :
 			break;
-		case :
+		case Read_eeprom :
 			break;
-		case :
+		case Write_IOExpdr :
 			break;
 	}
 //	EEPROMWriteExample();
