@@ -53,7 +53,7 @@ uint8_t IOExpdrExample_Write_Flag = 0;
 uint8_t IOExpdrExample_Read_Flag = 0;
 uint8_t eepromDataRead_Back[4];
 uint8_t IOExpdrDataRead_Back;
-uint8_t IOExpdrData_Write = 0b11110000;
+uint8_t IOExpdrData_Write = 0b00000000;
 
 uint8_t BlueButtonArray[2] = {1,1};//[0,1] == {Now,Past}
 
@@ -167,8 +167,9 @@ int main(void)
 			break;
 		case Write_IOExpdr :
 			IOExpdrExample_Write_Flag = 1;
-			IOExpdrData_Write = ((eepromDataRead_Back[0]<<7) | (eepromDataRead_Back[1]<<6) |
-					 (eepromDataRead_Back[2]<<5) | (eepromDataRead_Back[3]<<4)) & 0b11110000;
+			IOExpdrData_Write = ((eepromDataRead_Back[0]) | (eepromDataRead_Back[1]<<1) |
+					 (eepromDataRead_Back[2]<<2) | (eepromDataRead_Back[3]<<3)) & 0b1111 | 0b11110000;
+			HAL_Delay(50);
 			IOExpenderWritePinB(IOExpdrData_Write);
 			State = detect_Button;
 			HAL_Delay(50);
@@ -332,10 +333,10 @@ void EEPROMWriteExample(uint8_t SW_data) {
 	if (eepromExample_Write_Flag && hi2c1.State == HAL_I2C_STATE_READY) {
 
 		static uint8_t data[4] = {0};
-		data[0] =(~SW_data>>3) & 0b00000001;
-		data[1] =(~SW_data>>2) & 0b00000001;
-		data[2] =(~SW_data>>1) & 0b00000001;
-		data[3] = ~SW_data & 0b00000001;
+		data[0] =(SW_data>>3) & 0b00000001;
+		data[1] =(SW_data>>2) & 0b00000001;
+		data[2] =(SW_data>>1) & 0b00000001;
+		data[3] = SW_data & 0b00000001;
 
 		HAL_I2C_Mem_Write_IT(&hi2c1, EEPROM_ADDR, 0x2C, I2C_MEMADD_SIZE_16BIT,
 				data, 4);
