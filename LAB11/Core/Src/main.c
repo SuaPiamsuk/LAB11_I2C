@@ -163,6 +163,8 @@ int main(void)
 			State = Write_IOExpdr;
 			break;
 		case Write_IOExpdr :
+			IOExpdrExample_Write_Flag = 1;
+			IOExpenderWritePinB(IOExpdrData_Write);
 			State = detect_Button;
 			break;
 	}
