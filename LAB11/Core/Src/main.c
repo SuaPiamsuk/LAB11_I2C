@@ -158,8 +158,12 @@ int main(void)
 			State = Read_eeprom;
 			break;
 		case Read_eeprom :
+			eepromExample_Read_Flag = 1;
+			EEPROMReadExample(eepromDataRead_Back, 4);
+			State = Write_IOExpdr;
 			break;
 		case Write_IOExpdr :
+			State = detect_Button;
 			break;
 	}
 //	EEPROMWriteExample();
