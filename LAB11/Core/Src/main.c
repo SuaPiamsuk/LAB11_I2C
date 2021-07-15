@@ -148,11 +148,14 @@ int main(void)
 			}
 			break;
 		case Read_IOExpdr :
-			uint8_t IOExpdrExample_Read_Flag = 1;
+			IOExpdrExample_Read_Flag = 1;
 			IOExpenderReadPinA(&IOExpdrDataRead_Back);
 			State = Write_eeprom;
 			break;
 		case Write_eeprom :
+			eepromExample_Write_Flag = 1;
+			EEPROMWriteExample(IOExpdrDataRead_Back);
+			State = Read_eeprom;
 			break;
 		case Read_eeprom :
 			break;
@@ -313,7 +316,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void EEPROMWriteExample() {
+void EEPROMWriteExample(uint8_t SW_data) {
 	if (eepromExample_Write_Flag && hi2c1.State == HAL_I2C_STATE_READY) {
 
 		static uint8_t data[4] = { 0xff, 0x00, 0x55, 0xaa };
