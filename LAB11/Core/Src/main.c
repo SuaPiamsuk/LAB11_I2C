@@ -151,6 +151,7 @@ int main(void)
 			IOExpdrExample_Read_Flag = 1;
 			IOExpenderReadPinA(&IOExpdrDataRead_Back);
 			State = Write_eeprom;
+			HAL_Delay(50);  // HAVE TO !!!!!
 			break;
 		case Write_eeprom :
 			eepromExample_Write_Flag = 1;
@@ -162,12 +163,16 @@ int main(void)
 			eepromExample_Read_Flag = 1;
 			EEPROMReadExample(eepromDataRead_Back, 4);
 			State = Write_IOExpdr;
+			HAL_Delay(50);
 			break;
-//		case Write_IOExpdr :
-//			IOExpdrExample_Write_Flag = 1;
-//			IOExpenderWritePinB(IOExpdrData_Write);
-//			State = detect_Button;
-//			break;
+		case Write_IOExpdr :
+			IOExpdrExample_Write_Flag = 1;
+			IOExpdrData_Write = ((eepromDataRead_Back[0]<<7) | (eepromDataRead_Back[1]<<6) |
+					 (eepromDataRead_Back[2]<<5) | (eepromDataRead_Back[3]<<4)) & 0b11110000;
+			IOExpenderWritePinB(IOExpdrData_Write);
+			State = detect_Button;
+			HAL_Delay(50);
+			break;
 	}
 //	EEPROMWriteExample();
 //	EEPROMReadExample(eepromDataRead_Back, 4);
@@ -326,7 +331,12 @@ static void MX_GPIO_Init(void)
 void EEPROMWriteExample(uint8_t SW_data) {
 	if (eepromExample_Write_Flag && hi2c1.State == HAL_I2C_STATE_READY) {
 
-		static uint8_t data[4] = { 0xff, 0x00, 0x55, 0xaa };
+		static uint8_t data[4] = {0};
+		data[0] =(~SW_data>>3) & 0b00000001;
+		data[1] =(~SW_data>>2) & 0b00000001;
+		data[2] =(~SW_data>>1) & 0b00000001;
+		data[3] = ~SW_data & 0b00000001;
+
 		HAL_I2C_Mem_Write_IT(&hi2c1, EEPROM_ADDR, 0x2C, I2C_MEMADD_SIZE_16BIT,
 				data, 4);
 
