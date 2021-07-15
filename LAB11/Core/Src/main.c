@@ -156,17 +156,18 @@ int main(void)
 			eepromExample_Write_Flag = 1;
 			EEPROMWriteExample(IOExpdrDataRead_Back);
 			State = Read_eeprom;
+			HAL_Delay(50);
 			break;
 		case Read_eeprom :
 			eepromExample_Read_Flag = 1;
 			EEPROMReadExample(eepromDataRead_Back, 4);
 			State = Write_IOExpdr;
 			break;
-		case Write_IOExpdr :
-			IOExpdrExample_Write_Flag = 1;
-			IOExpenderWritePinB(IOExpdrData_Write);
-			State = detect_Button;
-			break;
+//		case Write_IOExpdr :
+//			IOExpdrExample_Write_Flag = 1;
+//			IOExpenderWritePinB(IOExpdrData_Write);
+//			State = detect_Button;
+//			break;
 	}
 //	EEPROMWriteExample();
 //	EEPROMReadExample(eepromDataRead_Back, 4);
