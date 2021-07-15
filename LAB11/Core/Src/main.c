@@ -148,7 +148,9 @@ int main(void)
 			}
 			break;
 		case Read_IOExpdr :
-
+			uint8_t IOExpdrExample_Read_Flag = 1;
+			IOExpenderReadPinA(&IOExpdrDataRead_Back);
+			State = Write_eeprom;
 			break;
 		case Write_eeprom :
 			break;
